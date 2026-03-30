@@ -21,10 +21,11 @@ Este análisis tiene como objetivo identificar patrones, tendencias y volúmenes
 - **Bibliotecas:** Pandas
 - **Visualización:** HTML + JavaScript (Chart.js, chartjs-plugin-datalabels)
 - **Proceso:**
-  1. **Extracción:** Lectura del CSV oficial del SRI con separador `|` y codificación `latin-1`.
-  2. **Limpieza:** Conversión de tipos numéricos con decimales en coma, verificación de meses completos (1–12).
-  3. **Transformación:** Agregación mensual, ranking de provincias (Top 10) y análisis de sectores económicos (código CIIU nivel 1).
-  4. **Visualización:** Generación de un reporte HTML interactivo con 9 gráficas: barras apiladas, áreas, donas con etiquetas siempre visibles, barras comparativas y balance comercial.
+  1. **Extracción:** Lectura del CSV oficial del SRI con separador `|` y codificación `latin-1` (`etl_sri_2024.py`).
+  2. **Limpieza:** Normalización del nombre de columna `AÑO`, verificación de nulos (0 encontrados), corrección de tipos numéricos con decimal en coma, validación de los 12 meses y normalización de texto (`PROVINCIA`, `CANTON` → mayúsculas).
+  3. **Transformación:** Agregación mensual, ranking de Top 10 provincias, análisis de Top 15 sectores CIIU nivel 1 y cálculo de KPIs anuales consolidados.
+  4. **Exportación:** Generación de 4 archivos CSV resumidos en la carpeta `resultados/` (`resumen_mensual.csv`, `top_provincias.csv`, `sectores_economicos.csv`, `kpis_generales.csv`).
+  5. **Visualización:** Reporte HTML interactivo con 9 gráficas basadas en los datos transformados.
 
 ---
 
@@ -127,7 +128,13 @@ reporteSRI2024/
 │   ├── TotalComprasPorMes-DistribucionComprasPorTipo.png
 │   ├── VentasVsCompras-Mensuales.png
 │   └── Ventas y Compras por Provincia (Top 10).png
-├── reporte_sri_2024.html            # Reporte interactivo con 9 gráficas (Chart.js)
+├── resultados/
+│   ├── resumen_mensual.csv          # Totales mensuales agregados
+│   ├── top_provincias.csv           # Top 10 provincias por ventas
+│   ├── sectores_economicos.csv      # Top 15 sectores CIIU nivel 1
+│   └── kpis_generales.csv          # KPIs anuales consolidados
+├── etl_sri_2024.py                  # Script ETL: Extraccion, Limpieza y Transformacion
+├── reporte_sri_2024.html            # Reporte interactivo con 9 graficas (Chart.js)
 └── README.md                        # Este archivo
 ```
 
