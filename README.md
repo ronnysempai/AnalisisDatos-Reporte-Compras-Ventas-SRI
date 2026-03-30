@@ -30,40 +30,75 @@ Este análisis tiene como objetivo identificar patrones, tendencias y volúmenes
 
 ## 📊 Principales Hallazgos
 
-### 1. 📈 Evolución Mensual de Ventas
+### 1. 🏦 Totales Generales del Año Fiscal 2024
 
-- **Total anual de ventas:** $242,988 millones USD
+![Reporte SRI Ecuador 2024 – KPIs Generales](./capturasResultados/TotalesGenerales.png)
+
+- **Total anual de ventas:** $242,988 millones USD (≈ $243 B)
+- **Total anual de compras:** $192,985 millones USD (≈ $193 B)
+- **Exportaciones:** $34,398 millones USD · **Importaciones:** $24,533 millones USD
+- Las ventas a Tarifa 15% representaron el **49.9%** del total, y las ventas a Tarifa 0% el **35.0%**.
+
+---
+
+### 2. 📈 Evolución Mensual de Ventas
+
+![Evolución Mensual de Ventas Netas 2024 – desagregado por tarifa](./capturasResultados/Evolución%20Mensual%20de%20Ventas.png)
+
 - **Diciembre** fue el mes de mayor actividad con **$31,258 millones**, reflejando el cierre del ejercicio fiscal.
 - **Junio** registró un pico atípico de **$24,866 millones**, probablemente vinculado a cierres contables semestrales.
 - **Enero y Febrero** presentaron los volúmenes más bajos del año (~$16,700 M), consistente con el inicio de año fiscal.
+- La **Tarifa 15%** (azul) domina en todos los meses, seguida de la Tarifa 0% (verde) y Exportaciones (naranja).
 
-### 2. 🛒 Evolución Mensual de Compras
+---
 
-- **Total anual de compras:** $192,985 millones USD
+### 3. 📉 Total de Ventas por Mes y Composición por Tipo
+
+![Total Ventas por Mes – vista de área y dona de composición](./capturasResultados/TotalVentasPorMes-DistribucionVentasPorTipo.png)
+
+- La curva de área refuerza visualmente los picos de Junio y Diciembre.
+- La dona de composición muestra que **Tarifa 15%** concentra el **50.4%**, Tarifa 0% el **35.3%** y Exportaciones el **14.3%** del total anual de ventas.
+
+---
+
+### 4. 🛒 Evolución Mensual de Compras
+
+![Evolución Mensual de Compras Netas 2024 – desagregado por tarifa](./capturasResultados/Evolución%20Mensual%20de%20Compras.png)
+
+- **Total anual de compras:** $192,985 millones USD.
 - La tendencia de compras siguió de cerca a la de ventas, con un **superávit comercial anual de ~$50,003 millones**.
 - Diciembre concentró el mayor gasto en compras ($26,124 M), seguido de Junio ($19,197 M).
+- La **Tarifa 15%** (morado) lidera en compras, con las importaciones (rojo) como componente más pequeño.
 
-### 3. 🏷️ Composición por Tipo de Tarifa
+---
 
-| Concepto | Monto (B USD) | Participación |
-|---|---|---|
-| Ventas Tarifa 15% | $121.3 B | 49.9% |
-| Ventas Tarifa 0% | $85.0 B | 35.0% |
-| Exportaciones | $34.4 B | 14.2% |
-| Compras Tarifa 15% | $94.0 B | 48.7% |
-| Compras Tarifa 0% | $68.3 B | 35.4% |
-| Importaciones | $24.5 B | 12.7% |
+### 5. 🔄 Total de Compras por Mes y Composición por Tipo
 
-### 4. 🗺️ Top 10 Provincias por Ventas
+![Total Compras por Mes – vista de área y dona de composición](./capturasResultados/TotalComprasPorMes-DistribucionComprasPorTipo.png)
+
+- La curva verde de compras refleja el mismo patrón estacional que las ventas.
+- En la composición anual de compras: **Tarifa 15%** representa el **50.3%**, Tarifa 0% el **36.6%** e Importaciones el **13.1%**.
+
+---
+
+### 6. ⚖️ Ventas vs. Compras Mensuales
+
+![Ventas vs. Compras Mensuales 2024 – comparativa directa](./capturasResultados/VentasVsCompras-Mensuales.png)
+
+- En **todos los meses** las ventas superaron a las compras, confirmando un **superávit comercial sostenido** a lo largo del año.
+- El mayor superávit se registró en **Diciembre ($5,133 M)** y el menor en **Febrero ($3,821 M)**.
+- El pico de Junio evidencia un incremento simultáneo en ventas y compras, posiblemente por cierres de semestre fiscal y campañas comerciales.
+
+---
+
+### 7. 🗺️ Ventas y Compras por Provincia (Top 10)
+
+![Ventas y Compras por Provincia – Top 10](./capturasResultados/Ventas%20y%20Compras%20por%20Provincia%20(Top%2010).png)
 
 - **Pichincha ($93.2 B)** y **Guayas ($85.2 B)** concentran el **73.3%** del total de ventas del país, reafirmando la centralización económica en Quito y Guayaquil.
 - **Manabí ($10.6 B)** y **Azuay ($9.4 B)** se posicionan como tercera y cuarta economía provincial.
 - **Zamora Chinchipe ($3.3 B)** destaca con un superávit comercial alto relativo a su tamaño, posiblemente ligado a la actividad minera.
-
-### 5. ⚖️ Balance Comercial Mensual
-
-- Todos los meses presentaron **superávit** (Ventas > Compras).
-- El mayor superávit se registró en **Diciembre ($5,133 M)** y el menor en **Enero ($3,931 M)**.
+- La brecha entre Pichincha/Guayas y el resto del país es marcada, evidenciando una alta concentración económica.
 
 ---
 
@@ -72,7 +107,8 @@ Este análisis tiene como objetivo identificar patrones, tendencias y volúmenes
 - **Concentración geográfica:** Existe una marcada dependencia económica en Pichincha y Guayas, lo que plantea riesgos de resiliencia ante eventos adversos focalizados en esas regiones.
 - **Picos estacionales:** Los meses de Junio y Diciembre requieren mayor capacidad operativa y de control tributario por parte del SRI, dado su comportamiento atípico.
 - **Tarifa 0% con alto peso:** Más de un tercio de las ventas son a tarifa cero, lo que tiene implicaciones directas para la recaudación de IVA y las políticas de exenciones vigentes.
-- **Oportunidad para provincias intermedias:** Provincias como Tungurahua, Los Ríos y Esmeraldas presentan actividad comercial relevante y podrían ser foco de políticas de fomento productivo regional.
+- **Superávit constante:** El balance positivo mensual sostenido sugiere que el sector productivo formal genera más de lo que consume, lo que es un indicador de salud económica relativa.
+- **Oportunidad para provincias intermedias:** Tungurahua, Los Ríos y Esmeraldas presentan actividad relevante y podrían ser foco de políticas de fomento productivo regional.
 
 ---
 
@@ -81,9 +117,18 @@ Este análisis tiene como objetivo identificar patrones, tendencias y volúmenes
 ```
 reporteSRI2024/
 │
-├── sri_ventas_2024.csv       # Dataset original del SRI (49,852 registros)
-├── reporte_sri_2024.html     # Reporte interactivo con 9 gráficas (Chart.js)
-└── README.md                 # Este archivo
+├── DataSet/
+│   └── sri_ventas_2024.csv          # Dataset original del SRI (49,852 registros)
+├── capturasResultados/
+│   ├── TotalesGenerales.png
+│   ├── Evolución Mensual de Ventas.png
+│   ├── TotalVentasPorMes-DistribucionVentasPorTipo.png
+│   ├── Evolución Mensual de Compras.png
+│   ├── TotalComprasPorMes-DistribucionComprasPorTipo.png
+│   ├── VentasVsCompras-Mensuales.png
+│   └── Ventas y Compras por Provincia (Top 10).png
+├── reporte_sri_2024.html            # Reporte interactivo con 9 gráficas (Chart.js)
+└── README.md                        # Este archivo
 ```
 
 ---
