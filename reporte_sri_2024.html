@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte SRI Ecuador 2024 – Ventas y Compras</title>
+  <meta name="description"
+    content="Reporte interactivo de ventas y compras del Servicio de Rentas Internas del Ecuador correspondiente al año fiscal 2024.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #0b0f1a;
+      --bg-card: #111827;
+      --bg-card2: #161d2e;
+      --border: rgba(255, 255, 255, 0.07);
+      --accent-blue: #3b82f6;
+      --accent-green: #22c55e;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #475569;
+      --glow-blue: 0 0 32px rgba(59, 130, 246, 0.18);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 48px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -80px;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      right: -40px;
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .header-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      box-shadow: var(--glow-blue);
+    }
+
+    .header-text h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #f1f5f9, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .header-text p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 6px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-top: 10px;
+    }
+
+    .header-badge::before {
+      content: '●';
+      color: #3b82f6;
+    }
+
+    /* ── MAIN CONTAINER ─────────────────────────────────── */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 48px;
+    }
+
+    /* ── KPI CARDS ──────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .kpi-card.blue::before {
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+
+    .kpi-card.green::before {
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+    }
+
+    .kpi-card.amber::before {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+
+    .kpi-card.rose::before {
+      background: linear-gradient(90deg, #f43f5e, #fb7185);
+    }
+
+    .kpi-card.purple::before {
+      background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+    }
+
+    .kpi-card.cyan::before {
+      background: linear-gradient(90deg, #06b6d4, #22d3ee);
+    }
+
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-card.blue .kpi-icon {
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .kpi-card.green .kpi-icon {
+      background: rgba(34, 197, 94, 0.15);
+    }
+
+    .kpi-card.amber .kpi-icon {
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .kpi-card.rose .kpi-icon {
+      background: rgba(244, 63, 94, 0.15);
+    }
+
+    .kpi-card.purple .kpi-icon {
+      background: rgba(139, 92, 246, 0.15);
+    }
+
+    .kpi-card.cyan .kpi-icon {
+      background: rgba(6, 182, 212, 0.15);
+    }
+
+    .kpi-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+    }
+
+    .kpi-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 6px;
+      line-height: 1;
+    }
+
+    .kpi-sub {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    /* ── SECTION HEADERS ─────────────────────────────────*/
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-header .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+
+    .section-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .section-header p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── CHART CARDS ─────────────────────────────────────*/
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 28px;
+      transition: box-shadow 0.2s;
+    }
+
+    .chart-card:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .chart-card .chart-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .chart-card .chart-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 22px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 320px;
+    }
+
+    .chart-wrap-tall {
+      position: relative;
+      height: 400px;
+    }
+
+    /* ── 2-COL GRID ──────────────────────────────────────*/
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── TABLE ───────────────────────────────────────────*/
+    .table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .table-card .table-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-card .table-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .table-card .table-header p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      padding: 12px 18px;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead th:not(:first-child) {
+      text-align: right;
+    }
+
+    tbody td {
+      padding: 11px 18px;
+      font-size: 0.84rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+    }
+
+    tbody td:first-child {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    tbody td:not(:first-child) {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    tbody tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ── LEGEND PILLS ────────────────────────────────────*/
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────*/
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      padding: 32px 48px 0;
+      border-top: 1px solid var(--border);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────────────*/
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .kpi-card,
+    .chart-card,
+    .table-card {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .kpi-grid .kpi-card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .kpi-grid .kpi-card:nth-child(2) {
+      animation-delay: 0.10s;
+    }
+
+    .kpi-grid .kpi-card:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .kpi-grid .kpi-card:nth-child(4) {
+      animation-delay: 0.20s;
+    }
+
+    .kpi-grid .kpi-card:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .kpi-grid .kpi-card:nth-child(6) {
+      animation-delay: 0.30s;
+    }
+
+    /* ── COLOR BARS FOR TABLE ────────────────────────────*/
+    .bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar-bg {
+      flex: 1;
+      height: 5px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.07);
+      min-width: 60px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    /* Tag chips */
+    .chip {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .chip.positive {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+    }
+
+    .chip.neutral {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-logo">🏦</div>
+      <div class="header-text">
+        <h1>Reporte SRI Ecuador 2024</h1>
+        <p>Servicio de Rentas Internas &mdash; Análisis de Ventas y Compras Mensuales</p>
+        <div class="header-badge">Año Fiscal 2024 · Enero–Diciembre</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── KPI CARDS ──────────────────────────────────── -->
+    <div class="kpi-grid" style="margin-top:36px;">
+      <div class="kpi-card blue">
+        <div class="kpi-icon">📈</div>
+        <div class="kpi-label">Total Ventas Anuales</div>
+        <div class="kpi-value" style="color:#60a5fa;">$243.0 B</div>
+        <div class="kpi-sub">242,988 millones USD</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-icon">🛒</div>
+        <div class="kpi-label">Total Compras Anuales</div>
+        <div class="kpi-value" style="color:#4ade80;">$193.0 B</div>
+        <div class="kpi-sub">192,985 millones USD</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-icon">🌍</div>
+        <div class="kpi-label">Exportaciones</div>
+        <div class="kpi-value" style="color:#fbbf24;">$34.4 B</div>
+        <div class="kpi-sub">34,398 millones USD</div>
+      </div>
+      <div class="kpi-card rose">
+        <div class="kpi-icon">🚢</div>
+        <div class="kpi-label">Importaciones</div>
+        <div class="kpi-value" style="color:#fb7185;">$24.5 B</div>
+        <div class="kpi-sub">24,533 millones USD</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-icon">🏷️</div>
+        <div class="kpi-label">Ventas Tarifa 15%</div>
+        <div class="kpi-value" style="color:#a78bfa;">$121.3 B</div>
+        <div class="kpi-sub">49.9% del total de ventas</div>
+      </div>
+      <div class="kpi-card cyan">
+        <div class="kpi-icon">✅</div>
+        <div class="kpi-label">Ventas Tarifa 0%</div>
+        <div class="kpi-value" style="color:#22d3ee;">$85.0 B</div>
+        <div class="kpi-sub">35.0% del total de ventas</div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: VENTAS MENSUALES ─────────────────── -->
+    <div class="section-header">
+      <div class="icon" style="background:rgba(59,130,246,0.15);">📊</div>
+      <div>
+        <h2>Evolución Mensual de Ventas</h2>
+        <p>Ventas netas totales por mes (tarifa 15% + tarifa 0% + exportaciones)</p>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Ventas Netas Mensuales 2024</div>
+      <div class="chart-subtitle">Millones de USD · desagregado por tipo de tarifa</div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#3b82f6;"></div>Tarifa 15%
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#22c55e;"></div>Tarifa 0%
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f59e0b;"></div>Exportaciones
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chartVentasMensual"></canvas>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Total Ventas por Mes</div>
+        <div class="chart-subtitle">Millones USD – vista de área</div>
+        <div class="chart-wrap">
+          <canvas id="chartVentasArea"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Composición de Ventas</div>
+        <div class="chart-subtitle">Distribución por tipo (anual)</div>
+        <div class="chart-wrap">
+          <canvas id="chartVentasDona"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── SECTION: COMPRAS MENSUALES ─────────────────── -->
+    <div class="section-header">
+      <div class="icon" style="background:rgba(34,197,94,0.15);">🛒</div>
+      <div>
+        <h2>Evolución Mensual de Compras</h2>
+        <p>Compras netas totales por mes desagregadas por tipo de tarifa</p>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Compras Netas Mensuales 2024</div>
+      <div class="chart-subtitle">Millones de USD · tarifa 15%, tarifa 0%, importaciones y compras RISE</div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#8b5cf6;"></div>Tarifa 15%
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#06b6d4;"></div>Tarifa 0%
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f43f5e;"></div>Importaciones
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chartComprasMensual"></canvas>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">Total Compras por Mes</div>
+        <div class="chart-subtitle">Millones USD – vista de área</div>
+        <div class="chart-wrap">
+          <canvas id="chartComprasArea"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Composición de Compras</div>
+        <div class="chart-subtitle">Distribución por tipo (anual)</div>
+        <div class="chart-wrap">
+          <canvas id="chartComprasDona"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── SECTION: VENTAS VS COMPRAS ─────────────────── -->
+    <div class="section-header">
+      <div class="icon" style="background:rgba(245,158,11,0.15);">⚖️</div>
+      <div>
+        <h2>Ventas vs. Compras</h2>
+        <p>Comparativa mensual y balance comercial</p>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Ventas vs. Compras Mensuales</div>
+      <div class="chart-subtitle">Millones USD – comparativa directa</div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#3b82f6;"></div>Ventas
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#22c55e;"></div>Compras
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chartVsCompras"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Balance Comercial Mensual (Ventas – Compras)</div>
+      <div class="chart-subtitle">Superávit comercial antes de impuestos, en millones USD</div>
+      <div class="chart-wrap">
+        <canvas id="chartBalance"></canvas>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── SECTION: PROVINCIAS ────────────────────────── -->
+    <div class="section-header">
+      <div class="icon" style="background:rgba(139,92,246,0.15);">🗺️</div>
+      <div>
+        <h2>Top 10 Provincias</h2>
+        <p>Mayores volúmenes de ventas y compras en el año 2024</p>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Ventas y Compras por Provincia (Top 10)</div>
+      <div class="chart-subtitle">Millones USD – ordenado por ventas totales</div>
+      <div class="chart-wrap-tall">
+        <canvas id="chartProvincias"></canvas>
+      </div>
+    </div>
+
+    <!-- TABLE MONTHLY -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>📅 Resumen Mensual Detallado</h3>
+        <p>Totales de ventas y compras por mes en millones USD</p>
+      </div>
+      <table id="monthlyTable">
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Total Ventas (M$)</th>
+            <th>Ventas 15%</th>
+            <th>Ventas 0%</th>
+            <th>Exportaciones</th>
+            <th>Total Compras (M$)</th>
+            <th>Compras 15%</th>
+            <th>Compras 0%</th>
+            <th>Importaciones</th>
+          </tr>
+        </thead>
+        <tbody id="monthlyTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- TABLE PROVINCES -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>🗺️ Top 10 Provincias por Ventas</h3>
+        <p>Ventas y compras totales anuales</p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Provincia</th>
+            <th>Ventas Totales (M$)</th>
+            <th>Compras Totales (M$)</th>
+            <th>Balance (M$)</th>
+            <th>Participación</th>
+          </tr>
+        </thead>
+        <tbody id="provTableBody"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Fuente: Servicio de Rentas Internas del Ecuador (SRI) &mdash; Ejercicio Fiscal 2024 &nbsp;·&nbsp; 49,852
+      registros procesados</p>
+    <p style="margin-top:6px;">Reporte generado automáticamente &nbsp;·&nbsp; Todos los valores en dólares americanos
+      (USD)</p>
+  </footer>
+
+  <script>
+    /* ────────────────────────────────────────────────────────
+       DATA
+    ──────────────────────────────────────────────────────── */
+    const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const MONTHS_FULL = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    // [totalVentas, totalCompras, ventasTar12, ventasTar0, exportaciones, comprasTar12, comprasTar0, importaciones]
+    const rawMonthly = [
+      [16699616120.96, 12768754592.00, 8450475213.61, 5638940674.19, 2610239264.72, 6150638713.70, 4450711901.24, 1913529091.56],
+      [16908511455.50, 13087769289.20, 8920111837.99, 5468858436.68, 2519200587.12, 6573320495.04, 4430089598.36, 1835340189.64],
+      [19321828532.47, 15379581169.46, 10847685211.45, 5937105870.12, 2522040583.29, 8181470686.63, 4832048159.26, 2068944688.23],
+      [18584530756.94, 14212636146.56, 9019364982.47, 6192023084.81, 3170494900.60, 6737583953.89, 5100808146.75, 1954714280.38],
+      [19104310879.70, 14997421220.17, 9499557329.13, 6227280528.51, 3163330963.78, 7164811589.08, 5398278708.83, 2012723765.61],
+      [24866281705.65, 19197742450.06, 11332742068.32, 10665485352.95, 2636341241.00, 9431375616.45, 7149544238.12, 1930869167.64],
+      [18871022492.28, 15013584750.92, 9567229113.78, 6135069655.04, 2918437335.20, 7319187140.54, 5178069666.79, 2020418638.84],
+      [19202071357.37, 15000852913.64, 9604565289.26, 6222213580.77, 3125518560.66, 7232540380.99, 5182908558.56, 2121972621.54],
+      [18660798499.67, 14876144096.38, 9558885148.03, 6194479685.64, 2659455214.83, 7274788045.64, 4980940087.74, 2128957471.16],
+      [19680231321.92, 16153317228.95, 9883102444.83, 6586047707.83, 2943117676.63, 7667751513.49, 5679836549.50, 2250614239.34],
+      [19831194193.03, 16172277884.40, 10128890073.15, 6556325712.76, 2869647192.67, 7796538189.00, 5694758330.45, 2098734954.24],
+      [31258071617.08, 26124561315.40, 14504354453.11, 13207410287.31, 3260270847.95, 12437925592.25, 10209813044.32, 2196207052.11],
+    ];
+
+    const provinces = [
+      { name: 'PICHINCHA', ventas: 93159021787.63, compras: 67916427079.28 },
+      { name: 'GUAYAS', ventas: 85231960554.62, compras: 70574221597.19 },
+      { name: 'MANABÍ', ventas: 10558398298.27, compras: 9249635847.56 },
+      { name: 'AZUAY', ventas: 9437904620.61, compras: 7648752945.78 },
+      { name: 'EL ORO', ventas: 7225088848.95, compras: 6002016496.26 },
+      { name: 'LOS RÍOS', ventas: 5494352606.16, compras: 4513747431.85 },
+      { name: 'TUNGURAHUA', ventas: 5071665593.84, compras: 4423729552.11 },
+      { name: 'SANTO DOMINGO', ventas: 4262931736.06, compras: 3713245691.73 },
+      { name: 'ZAMORA CHICH.', ventas: 3266824543.37, compras: 2342216933.98 },
+      { name: 'ESMERALDAS', ventas: 2875680055.83, compras: 2274179472.69 },
+    ];
+
+    const M = v => (v / 1e6).toFixed(1);
+    const Mf = v => (v / 1e6).toLocaleString('es-EC', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+    /* ────────────────────────────────────────────────────────
+       CHART DEFAULTS
+    ──────────────────────────────────────────────────────── */
+    Chart.defaults.color = '#94a3b8';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.plugins.legend.display = false;
+
+    const gridOpts = { color: 'rgba(255,255,255,0.05)', drawBorder: false };
+    const tickOpts = { color: '#64748b', font: { size: 11 } };
+
+    const tooltip = {
+      backgroundColor: 'rgba(15,23,42,0.95)',
+      borderColor: 'rgba(255,255,255,0.12)',
+      borderWidth: 1,
+      titleColor: '#f1f5f9',
+      bodyColor: '#94a3b8',
+      padding: 12,
+      callbacks: {
+        label: ctx => ` $${parseFloat(ctx.raw).toLocaleString('es-EC', { minimumFractionDigits: 1 })} M`
+      }
+    };
+
+    /* ────────────────────────────────────────────────────────
+       CHART 1: VENTAS MENSUAL (STACKED BAR)
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartVentasMensual'), {
+      type: 'bar',
+      data: {
+        labels: MONTHS,
+        datasets: [
+          {
+            label: 'Tarifa 15%',
+            data: rawMonthly.map(r => r[2] / 1e6),
+            backgroundColor: 'rgba(59,130,246,0.8)',
+            borderRadius: 4,
+            stack: 'v',
+          },
+          {
+            label: 'Tarifa 0%',
+            data: rawMonthly.map(r => r[3] / 1e6),
+            backgroundColor: 'rgba(34,197,94,0.75)',
+            borderRadius: 4,
+            stack: 'v',
+          },
+          {
+            label: 'Exportaciones',
+            data: rawMonthly.map(r => r[4] / 1e6),
+            backgroundColor: 'rgba(245,158,11,0.75)',
+            borderRadius: 4,
+            stack: 'v',
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip },
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: tickOpts },
+          y: { stacked: true, grid: gridOpts, ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' } }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 2: VENTAS AREA
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartVentasArea'), {
+      type: 'line',
+      data: {
+        labels: MONTHS,
+        datasets: [{
+          data: rawMonthly.map(r => r[0] / 1e6),
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59,130,246,0.1)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#3b82f6',
+          pointRadius: 4,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip },
+        scales: {
+          x: { grid: { display: false }, ticks: tickOpts },
+          y: { grid: gridOpts, ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' } }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 3: VENTAS DONUT
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartVentasDona'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Tarifa 15%', 'Tarifa 0%', 'Exportaciones'],
+        datasets: [{
+          data: [121316963165.13 / 1e9, 85031240576.61 / 1e9, 34398094368.45 / 1e9],
+          backgroundColor: ['rgba(59,130,246,0.85)', 'rgba(34,197,94,0.85)', 'rgba(245,158,11,0.85)'],
+          borderColor: '#111827',
+          borderWidth: 3,
+          hoverOffset: 8,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        cutout: '62%',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 12 }
+          },
+          tooltip: {
+            ...tooltip,
+            callbacks: { label: ctx => ` $${ctx.raw.toFixed(1)} B` }
+          }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 4: COMPRAS MENSUAL (STACKED BAR)
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartComprasMensual'), {
+      type: 'bar',
+      data: {
+        labels: MONTHS,
+        datasets: [
+          {
+            label: 'Tarifa 15%',
+            data: rawMonthly.map(r => r[5] / 1e6),
+            backgroundColor: 'rgba(139,92,246,0.8)',
+            borderRadius: 4,
+            stack: 'c',
+          },
+          {
+            label: 'Tarifa 0%',
+            data: rawMonthly.map(r => r[6] / 1e6),
+            backgroundColor: 'rgba(6,182,212,0.75)',
+            borderRadius: 4,
+            stack: 'c',
+          },
+          {
+            label: 'Importaciones',
+            data: rawMonthly.map(r => r[7] / 1e6),
+            backgroundColor: 'rgba(244,63,94,0.75)',
+            borderRadius: 4,
+            stack: 'c',
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip },
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: tickOpts },
+          y: { stacked: true, grid: gridOpts, ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' } }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 5: COMPRAS AREA
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartComprasArea'), {
+      type: 'line',
+      data: {
+        labels: MONTHS,
+        datasets: [{
+          data: rawMonthly.map(r => r[1] / 1e6),
+          borderColor: '#22c55e',
+          backgroundColor: 'rgba(34,197,94,0.1)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#22c55e',
+          pointRadius: 4,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip },
+        scales: {
+          x: { grid: { display: false }, ticks: tickOpts },
+          y: { grid: gridOpts, ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' } }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 6: COMPRAS DONUT
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartComprasDona'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Tarifa 15%', 'Tarifa 0%', 'Importaciones'],
+        datasets: [{
+          data: [93967931916.70 / 1e9, 68287806989.92 / 1e9, 24533026160.29 / 1e9],
+          backgroundColor: ['rgba(139,92,246,0.85)', 'rgba(6,182,212,0.85)', 'rgba(244,63,94,0.85)'],
+          borderColor: '#111827',
+          borderWidth: 3,
+          hoverOffset: 8,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        cutout: '62%',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 12 }
+          },
+          tooltip: {
+            ...tooltip,
+            callbacks: { label: ctx => ` $${ctx.raw.toFixed(1)} B` }
+          }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 7: VENTAS VS COMPRAS (GROUPED BAR)
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartVsCompras'), {
+      type: 'bar',
+      data: {
+        labels: MONTHS,
+        datasets: [
+          {
+            label: 'Ventas',
+            data: rawMonthly.map(r => r[0] / 1e6),
+            backgroundColor: 'rgba(59,130,246,0.8)',
+            borderRadius: 6,
+          },
+          {
+            label: 'Compras',
+            data: rawMonthly.map(r => r[1] / 1e6),
+            backgroundColor: 'rgba(34,197,94,0.75)',
+            borderRadius: 6,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 12 }
+          },
+          tooltip
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: tickOpts },
+          y: { grid: gridOpts, ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' } }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 8: BALANCE MENSUAL
+    ──────────────────────────────────────────────────────── */
+    const balanceData = rawMonthly.map(r => (r[0] - r[1]) / 1e6);
+    new Chart(document.getElementById('chartBalance'), {
+      type: 'bar',
+      data: {
+        labels: MONTHS,
+        datasets: [{
+          label: 'Balance',
+          data: balanceData,
+          backgroundColor: balanceData.map(v => v >= 0 ? 'rgba(34,197,94,0.8)' : 'rgba(244,63,94,0.75)'),
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip },
+        scales: {
+          x: { grid: { display: false }, ticks: tickOpts },
+          y: {
+            grid: gridOpts,
+            ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' }
+          }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       CHART 9: PROVINCIAS (HORIZONTAL BAR)
+    ──────────────────────────────────────────────────────── */
+    new Chart(document.getElementById('chartProvincias'), {
+      type: 'bar',
+      data: {
+        labels: provinces.map(p => p.name),
+        datasets: [
+          {
+            label: 'Ventas',
+            data: provinces.map(p => p.ventas / 1e6),
+            backgroundColor: 'rgba(59,130,246,0.8)',
+            borderRadius: 4,
+          },
+          {
+            label: 'Compras',
+            data: provinces.map(p => p.compras / 1e6),
+            backgroundColor: 'rgba(34,197,94,0.75)',
+            borderRadius: 4,
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 12 }
+          },
+          tooltip
+        },
+        scales: {
+          x: { grid: gridOpts, ticks: { ...tickOpts, callback: v => '$' + v.toLocaleString() + 'M' } },
+          y: { grid: { display: false }, ticks: tickOpts }
+        }
+      }
+    });
+
+    /* ────────────────────────────────────────────────────────
+       POPULATE MONTHLY TABLE
+    ──────────────────────────────────────────────────────── */
+    const tbody = document.getElementById('monthlyTableBody');
+    rawMonthly.forEach((r, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+    <td>${MONTHS_FULL[i]}</td>
+    <td><strong style="color:#60a5fa">$${Mf(r[0])}</strong></td>
+    <td>$${Mf(r[2])}</td>
+    <td>$${Mf(r[3])}</td>
+    <td>$${Mf(r[4])}</td>
+    <td><strong style="color:#4ade80">$${Mf(r[1])}</strong></td>
+    <td>$${Mf(r[5])}</td>
+    <td>$${Mf(r[6])}</td>
+    <td>$${Mf(r[7])}</td>
+  `;
+      tbody.appendChild(tr);
+    });
+
+    /* GRAND TOTAL ROW */
+    const totV = rawMonthly.reduce((s, r) => s + r[0], 0);
+    const totC = rawMonthly.reduce((s, r) => s + r[1], 0);
+    const totV12 = rawMonthly.reduce((s, r) => s + r[2], 0);
+    const totV0 = rawMonthly.reduce((s, r) => s + r[3], 0);
+    const totExp = rawMonthly.reduce((s, r) => s + r[4], 0);
+    const totC12 = rawMonthly.reduce((s, r) => s + r[5], 0);
+    const totC0 = rawMonthly.reduce((s, r) => s + r[6], 0);
+    const totImp = rawMonthly.reduce((s, r) => s + r[7], 0);
+    const trTotal = document.createElement('tr');
+    trTotal.style.cssText = 'background:rgba(255,255,255,0.04);font-weight:600;';
+    trTotal.innerHTML = `
+  <td style="color:#f1f5f9">TOTAL ANUAL</td>
+  <td style="color:#93c5fd">$${Mf(totV)}</td>
+  <td>$${Mf(totV12)}</td>
+  <td>$${Mf(totV0)}</td>
+  <td>$${Mf(totExp)}</td>
+  <td style="color:#86efac">$${Mf(totC)}</td>
+  <td>$${Mf(totC12)}</td>
+  <td>$${Mf(totC0)}</td>
+  <td>$${Mf(totImp)}</td>
+`;
+    tbody.appendChild(trTotal);
+
+    /* ────────────────────────────────────────────────────────
+       POPULATE PROVINCES TABLE
+    ──────────────────────────────────────────────────────── */
+    const provBody = document.getElementById('provTableBody');
+    const maxV = provinces[0].ventas;
+    provinces.forEach((p, i) => {
+      const balance = p.ventas - p.compras;
+      const pct = (p.ventas / totV * 100).toFixed(1);
+      const barWidth = (p.ventas / maxV * 100).toFixed(1);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+    <td style="color:var(--text-muted);font-size:.75rem">${i + 1}</td>
+    <td>${p.name}</td>
+    <td>
+      <div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" style="width:${barWidth}%;background:linear-gradient(90deg,#3b82f6,#60a5fa)"></div></div>
+        <span style="color:#60a5fa;font-weight:600">$${Mf(p.ventas)}</span>
+      </div>
+    </td>
+    <td style="color:#4ade80">$${Mf(p.compras)}</td>
+    <td style="color:#fbbf24">$${Mf(balance)}</td>
+    <td><span class="chip positive">${pct}%</span></td>
+  `;
+      provBody.appendChild(tr);
+    });
+  </script>
+</body>
+
+</html>
