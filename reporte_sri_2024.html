@@ -11,7 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <style>
     *,
     *::before,
@@ -921,7 +922,7 @@
     /* ────────────────────────────────────────────────────────
        CHART 3: VENTAS DONUT
     ──────────────────────────────────────────────────────── */
-    (function() {
+    (function () {
       const ventasData = [121316963165.13 / 1e9, 85031240576.61 / 1e9, 34398094368.45 / 1e9];
       const ventasTotal = ventasData.reduce((a, b) => a + b, 0);
       new Chart(document.getElementById('chartVentasDona'), {
@@ -1038,7 +1039,7 @@
     /* ────────────────────────────────────────────────────────
        CHART 6: COMPRAS DONUT
     ──────────────────────────────────────────────────────── */
-    (function() {
+    (function () {
       const comprasData = [93967931916.70 / 1e9, 68287806989.92 / 1e9, 24533026160.29 / 1e9];
       const comprasTotal = comprasData.reduce((a, b) => a + b, 0);
       new Chart(document.getElementById('chartComprasDona'), {
