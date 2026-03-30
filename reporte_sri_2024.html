@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
   <style>
     *,
     *::before,
@@ -920,34 +921,50 @@
     /* ────────────────────────────────────────────────────────
        CHART 3: VENTAS DONUT
     ──────────────────────────────────────────────────────── */
-    new Chart(document.getElementById('chartVentasDona'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Tarifa 15%', 'Tarifa 0%', 'Exportaciones'],
-        datasets: [{
-          data: [121316963165.13 / 1e9, 85031240576.61 / 1e9, 34398094368.45 / 1e9],
-          backgroundColor: ['rgba(59,130,246,0.85)', 'rgba(34,197,94,0.85)', 'rgba(245,158,11,0.85)'],
-          borderColor: '#111827',
-          borderWidth: 3,
-          hoverOffset: 8,
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        cutout: '62%',
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 12 }
-          },
-          tooltip: {
-            ...tooltip,
-            callbacks: { label: ctx => ` $${ctx.raw.toFixed(1)} B` }
+    (function() {
+      const ventasData = [121316963165.13 / 1e9, 85031240576.61 / 1e9, 34398094368.45 / 1e9];
+      const ventasTotal = ventasData.reduce((a, b) => a + b, 0);
+      new Chart(document.getElementById('chartVentasDona'), {
+        type: 'doughnut',
+        plugins: [ChartDataLabels],
+        data: {
+          labels: ['Tarifa 15%', 'Tarifa 0%', 'Exportaciones'],
+          datasets: [{
+            data: ventasData,
+            backgroundColor: ['rgba(59,130,246,0.85)', 'rgba(34,197,94,0.85)', 'rgba(245,158,11,0.85)'],
+            borderColor: '#111827',
+            borderWidth: 3,
+            hoverOffset: 6,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          cutout: '58%',
+          layout: { padding: 32 },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              ...tooltip,
+              callbacks: { label: ctx => ` $${ctx.raw.toFixed(1)} B` }
+            },
+            datalabels: {
+              display: true,
+              anchor: 'end',
+              align: 'end',
+              offset: 10,
+              color: '#f1f5f9',
+              font: { size: 11, weight: '600', family: "'Inter', sans-serif" },
+              formatter: (value, ctx) => {
+                const pct = ((value / ventasTotal) * 100).toFixed(1);
+                const label = ctx.chart.data.labels[ctx.dataIndex];
+                return [`${label}`, `$${value.toFixed(1)} B  (${pct}%)`];
+              },
+              textAlign: 'center',
+            }
           }
         }
-      }
-    });
+      });
+    })();
 
     /* ────────────────────────────────────────────────────────
        CHART 4: COMPRAS MENSUAL (STACKED BAR)
@@ -1021,34 +1038,50 @@
     /* ────────────────────────────────────────────────────────
        CHART 6: COMPRAS DONUT
     ──────────────────────────────────────────────────────── */
-    new Chart(document.getElementById('chartComprasDona'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Tarifa 15%', 'Tarifa 0%', 'Importaciones'],
-        datasets: [{
-          data: [93967931916.70 / 1e9, 68287806989.92 / 1e9, 24533026160.29 / 1e9],
-          backgroundColor: ['rgba(139,92,246,0.85)', 'rgba(6,182,212,0.85)', 'rgba(244,63,94,0.85)'],
-          borderColor: '#111827',
-          borderWidth: 3,
-          hoverOffset: 8,
-        }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        cutout: '62%',
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: { color: '#94a3b8', font: { size: 11 }, padding: 14, boxWidth: 12 }
-          },
-          tooltip: {
-            ...tooltip,
-            callbacks: { label: ctx => ` $${ctx.raw.toFixed(1)} B` }
+    (function() {
+      const comprasData = [93967931916.70 / 1e9, 68287806989.92 / 1e9, 24533026160.29 / 1e9];
+      const comprasTotal = comprasData.reduce((a, b) => a + b, 0);
+      new Chart(document.getElementById('chartComprasDona'), {
+        type: 'doughnut',
+        plugins: [ChartDataLabels],
+        data: {
+          labels: ['Tarifa 15%', 'Tarifa 0%', 'Importaciones'],
+          datasets: [{
+            data: comprasData,
+            backgroundColor: ['rgba(139,92,246,0.85)', 'rgba(6,182,212,0.85)', 'rgba(244,63,94,0.85)'],
+            borderColor: '#111827',
+            borderWidth: 3,
+            hoverOffset: 6,
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          cutout: '58%',
+          layout: { padding: 32 },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              ...tooltip,
+              callbacks: { label: ctx => ` $${ctx.raw.toFixed(1)} B` }
+            },
+            datalabels: {
+              display: true,
+              anchor: 'end',
+              align: 'end',
+              offset: 10,
+              color: '#f1f5f9',
+              font: { size: 11, weight: '600', family: "'Inter', sans-serif" },
+              formatter: (value, ctx) => {
+                const pct = ((value / comprasTotal) * 100).toFixed(1);
+                const label = ctx.chart.data.labels[ctx.dataIndex];
+                return [`${label}`, `$${value.toFixed(1)} B  (${pct}%)`];
+              },
+              textAlign: 'center',
+            }
           }
         }
-      }
-    });
+      });
+    })();
 
     /* ────────────────────────────────────────────────────────
        CHART 7: VENTAS VS COMPRAS (GROUPED BAR)
